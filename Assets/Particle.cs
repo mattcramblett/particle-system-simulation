@@ -10,11 +10,10 @@ public class Particle : MonoBehaviour {
 	
 	// Update is called once per frame
 	public void Update (){
-
 	}
 	
 	public void ApplyForce(Vector3 f){
-		force += f;
+		force += f*5;
 	}
 
 	public void ResetForce(){

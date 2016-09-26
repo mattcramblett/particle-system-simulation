@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{53C0CFC5-1299-1CD8-9146-822570562000}") = "particle-system-simulation", "Assembly-CSharp.csproj", "{55D094B6-8C6F-B073-B329-366E22806BED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55D094B6-8C6F-B073-B329-366E22806BED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55D094B6-8C6F-B073-B329-366E22806BED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55D094B6-8C6F-B073-B329-366E22806BED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55D094B6-8C6F-B073-B329-366E22806BED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
