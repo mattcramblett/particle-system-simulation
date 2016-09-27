@@ -27,7 +27,6 @@ public class ParticleGenerator : MonoBehaviour {
 		Particles = new ArrayList();
 		generateParticles();
 	}
-	
 	// Update is called once per frame
 	void Update () {
 		List<GameObject> toRemove = new List<GameObject> ();
