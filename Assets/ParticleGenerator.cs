@@ -55,7 +55,9 @@ public class ParticleGenerator : MonoBehaviour {
 			generateCount++;
 		}
 		if (Input.GetKeyDown (KeyCode.DownArrow)) {
-			generateCount--;
+			if (generateCount > 0) {
+				generateCount--;
+			}
 		}
 		for (int i = 0; i < generateCount; i++) {
 			generateParticles ();
