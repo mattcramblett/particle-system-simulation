@@ -48,7 +48,9 @@ public class ParticleGenerator : MonoBehaviour {
 		foreach (GameObject p in Particles){
 			//add up forces acting on p
 			p.transform.position += Vector3.up * rate; //cheaply make the rain fall
-			if (p.transform.position.y <= .2) {
+			GameObject ground = GameObject.FindGameObjectWithTag("ground");
+			
+			if (p.transform.position.y <= ground.transform.position.y) {
 				toRemove.Add (p);
 			}
 		}
