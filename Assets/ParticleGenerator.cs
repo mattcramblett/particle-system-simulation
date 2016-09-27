@@ -47,11 +47,21 @@ public class ParticleGenerator : MonoBehaviour {
 		List<GameObject> toRemoveSmall = new List<GameObject> ();
 		foreach (GameObject p in Particles){
 			//add up forces acting on p
-			p.transform.position += Vector3.up * rate; //cheaply make the rain fall
 			GameObject ground = GameObject.FindGameObjectWithTag("ground");
-			
-			if (p.transform.position.y <= ground.transform.position.y) {
-				toRemove.Add (p);
+
+			if (p.transform.position.y > ground.transform.position.y+.02) {
+				p.transform.position += Vector3.up * rate; //cheaply make the rain fall
+			}
+			if (p.transform.position.y <= ground.transform.position.y + .02) {
+				Vector3 shape = p.transform.localScale;
+				if (shape.y > 0) {
+					shape.y -= .01f;
+				} else {
+					toRemove.Add (p);
+				}
+				p.transform.localScale = shape;
+
+				//toRemove.Add (p);
 			}
 		}
 		foreach (GameObject p in toRemove) {
