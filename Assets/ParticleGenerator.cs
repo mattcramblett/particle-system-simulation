@@ -6,8 +6,8 @@ public class ParticleGenerator : MonoBehaviour {
 	public int startingNumberOfParticles = 25;
 	public float yStartPosition = 5f;
 	public ArrayList Particles;
-	public ArrayList SmallParticles;
 	public float rate = -0.1f;
+	public int generateCount = 1;
 
 	//creates sphere game objects:
 	void generateParticles(){
@@ -21,19 +21,6 @@ public class ParticleGenerator : MonoBehaviour {
 		}
 	}
 
-	void generateSmallParticles(GameObject p){
-		for (int i = 0; i < 5; i++) {
-			GameObject smallSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			smallSphere.transform.parent = transform;
-			smallSphere.name = "smallsphere" + i.ToString();
-			//this should be a position relative to the argument to create splatter
-			smallSphere.transform.position = new Vector3(Random.Range(-4.0f, 4.0f), yStartPosition, Random.Range(-4.0f, 4.0f)); //drop start pos
-			//smaller than original raindrop
-			smallSphere.transform.localScale = new Vector3(0.02f, 0.05f, 0.02f); //drop size
-			SmallParticles.Add(smallSphere);
-		}
-	}
-
 
 	// Use this for initialization
 	void Start () {
@@ -44,13 +31,12 @@ public class ParticleGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		List<GameObject> toRemove = new List<GameObject> ();
-		List<GameObject> toRemoveSmall = new List<GameObject> ();
 		foreach (GameObject p in Particles){
 			//add up forces acting on p
 			GameObject ground = GameObject.FindGameObjectWithTag("ground");
 
 			if (p.transform.position.y > ground.transform.position.y+.02) {
-				p.transform.position += Vector3.up * rate; //cheaply make the rain fall
+				p.transform.position += Vector3.up * 1 *rate; //cheaply make the rain fall
 			}
 			if (p.transform.position.y <= ground.transform.position.y + .02) {
 				Vector3 shape = p.transform.localScale;
@@ -60,28 +46,20 @@ public class ParticleGenerator : MonoBehaviour {
 					toRemove.Add (p);
 				}
 				p.transform.localScale = shape;
-
-				//toRemove.Add (p);
 			}
 		}
 		foreach (GameObject p in toRemove) {
 			//generateSmallParticles (p);
 			Particles.Remove (p);
 		}
-		/*foreach (GameObject p in smallParticles) {
-			p.transform.position += Vector3.up * rate;
-			if (p.transform.position.y <= .2) {
-				toRemoveSmall.Add (p);
-			}
+		if (Input.GetKeyDown (KeyCode.UpArrow)) {
+			generateCount++;
 		}
-		foreach (GameObject p in toRemoveSmall) {
-			smallParticles.Remove (p);
-		}*/
-
-		/*if (GameObject.transform.position.y < 0) {
-			print ("destroy");
-			GameObject.Destroy ();
-		}*/
-		generateParticles();
+		if (Input.GetKeyDown (KeyCode.DownArrow)) {
+			generateCount--;
+		}
+		for (int i = 0; i < generateCount; i++) {
+			generateParticles ();
+		}
 	}
 }
