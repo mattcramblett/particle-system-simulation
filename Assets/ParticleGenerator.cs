@@ -7,7 +7,6 @@ public class ParticleGenerator : MonoBehaviour {
 	public float yStartPosition = 5f;
 	public ArrayList Particles;
 	public float rate = -0.1f;
-	public int generateCount = 1;
 
 
 	public class Drop {
@@ -45,6 +44,7 @@ public class ParticleGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		ArrayList toRemove = new ArrayList();
+
 		foreach (Drop p in Particles){
 			p.life++; //each frame is one point to life
 			GameObject ground = GameObject.FindGameObjectWithTag("ground");
@@ -67,6 +67,27 @@ public class ParticleGenerator : MonoBehaviour {
 				}
 				p.body.transform.localScale = shape;
 			}
+
+			//check each drops y position and assign a color:
+			if(p.body.transform.position.y < 1.25){
+				Material material = new Material(Shader.Find("Standard"));
+				material.color = Color.red;
+				p.body.GetComponent<Renderer>().material = material;
+			}else if(p.body.transform.position.y < 2.5){
+				Material material = new Material(Shader.Find("Standard"));
+				material.color = Color.green;
+				p.body.GetComponent<Renderer>().material = material;
+			}else if(p.body.transform.position.y < 3.75){
+				Material material = new Material(Shader.Find("Standard"));
+				material.color = Color.yellow;
+				p.body.GetComponent<Renderer>().material = material;
+			}else{
+				Material material = new Material(Shader.Find("Standard"));
+				material.color = Color.blue;
+				p.body.GetComponent<Renderer>().material = material;
+			}
+
+
 		}
 		foreach (Drop p in toRemove) {
 			Particles.Remove (p);
