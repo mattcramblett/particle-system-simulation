@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ParticleGenerator : MonoBehaviour {
-	public int startingNumberOfParticles = 25;
+	public int particleDensity = 25;
 	public float yStartPosition = 5f;
 	public ArrayList Particles;
 	public float rate = -0.1f;
@@ -11,7 +11,7 @@ public class ParticleGenerator : MonoBehaviour {
 
 	//creates sphere game objects:
 	void generateParticles(){
-		for(int i = 0; i < startingNumberOfParticles; i++){
+		for(int i = 0; i < particleDensity; i++){
      		GameObject aSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
      		aSphere.transform.parent = transform;
      		aSphere.name = "sphere" + i.ToString();
@@ -52,15 +52,15 @@ public class ParticleGenerator : MonoBehaviour {
 			Particles.Remove (p);
 		}
 		if (Input.GetKeyDown (KeyCode.UpArrow)) {
-			generateCount++;
-		}
-		if (Input.GetKeyDown (KeyCode.DownArrow)) {
-			if (generateCount > 0) {
-				generateCount--;
+			if(particleDensity < 50){
+				particleDensity++;
 			}
 		}
-		for (int i = 0; i < generateCount; i++) {
-			generateParticles ();
+		if (Input.GetKeyDown (KeyCode.DownArrow)) {
+			if (particleDensity > 0) {
+				particleDensity--;
+			}
 		}
+		generateParticles ();
 	}
 }
