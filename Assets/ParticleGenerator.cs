@@ -53,11 +53,13 @@ public class ParticleGenerator : MonoBehaviour {
 			Vector3 planePoint = new Vector3(0,0,0);
 			Vector3 normal = ground.transform.up;
 			float dot = -Vector3.Dot (ground.transform.up, planePoint);
+			
 			//print (Vector3.Dot (p.body.transform.position - planePoint, normal));
-
+			//float angle = Mathf.Abs(Vector3.Angle(normal, ground.transform.forward));
+			//print(angle);
 
 			//if particle is above ground:
-			if (Vector3.Dot (p.body.transform.position - planePoint, normal) > 0) {
+			if (Vector3.Dot (p.body.transform.position - planePoint, normal) > .4) {
 				//drop falling physics:
 				float accel = 1f; //only force is gravity, using an equal ratio with mass
 				float endv = p.velocity + accel * Time.deltaTime; // v + a * deltaTime
@@ -66,19 +68,12 @@ public class ParticleGenerator : MonoBehaviour {
 			}
 			
 			//if particle is on ground:
-			if (Vector3.Dot (p.body.transform.position - planePoint, normal) <= 0) {
-				Vector3 shape = p.body.transform.localScale;
-				Vector3 position = p.body.transform.position;
-				//position.y += 2;
-				p.body.transform.position = position;
-				if (shape.y > 0) {
-					shape.y -= .01f;
-					shape.x += .01f;
-					shape.z += .01f;
-				} else {
+			if (Vector3.Dot (p.body.transform.position - planePoint, normal) <= .4) {
+				//TODO: add diagonal force down. plane is currently tilted 20 on x axis
+				//can add rotation to ball too
+				if (p.life > 30) {
 					toRemove.Add (p);
 				}
-				p.body.transform.localScale = shape;
 			}
 
 			//check each drops y position and assign a color:
