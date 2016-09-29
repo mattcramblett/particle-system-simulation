@@ -16,7 +16,7 @@ public class ParticleGenerator : MonoBehaviour {
 
 		public Drop(){
 			body = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			velocity = 2f;
+			velocity = 1f;
 			life = 0;
 		}
 	}
@@ -44,13 +44,12 @@ public class ParticleGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		ArrayList toRemove = new ArrayList();
-
 		foreach (Drop p in Particles){
 			p.life++; //each frame is one point to life
 			GameObject ground = GameObject.FindGameObjectWithTag("ground");
-
+			print (ground.transform.position);
 			//if particle is above ground:
-			if (p.body.transform.position.y > ground.transform.position.y+.02) {
+			if (p.body.transform.position.y > ground.transform.position.y) {
 				//drop falling physics:
 				float accel = 1f; //only force is gravity, using an equal ratio with mass
 				float endv = p.velocity + accel * Time.deltaTime; // v + a * deltaTime
@@ -58,10 +57,15 @@ public class ParticleGenerator : MonoBehaviour {
 				p.velocity = endv; //update particle velocity
 			}
 			//if particle is above ground:
-			if (p.body.transform.position.y <= ground.transform.position.y + .02) {
+			if (p.body.transform.position.y <= ground.transform.position.y) {
 				Vector3 shape = p.body.transform.localScale;
+				Vector3 position = p.body.transform.position;
+				position.y = 0;
+				p.body.transform.position = position;
 				if (shape.y > 0) {
 					shape.y -= .01f;
+					shape.x += .01f;
+					shape.z += .01f;
 				} else {
 					toRemove.Add (p);
 				}
@@ -91,6 +95,7 @@ public class ParticleGenerator : MonoBehaviour {
 		}
 		foreach (Drop p in toRemove) {
 			Particles.Remove (p);
+			Destroy (p.body);
 		}
 
 		//Key up and down to change density of drops:
