@@ -45,9 +45,18 @@ public class ParticleGenerator : MonoBehaviour {
 	void Update () {
 		ArrayList toRemove = new ArrayList();
 		foreach (Drop p in Particles){
+			
 			p.life++; //each frame is one point to life
 			GameObject ground = GameObject.FindGameObjectWithTag("ground");
-			print (ground.transform.position);
+
+			//plane equation
+			Vector3 planePoint = new Vector3(ground.transform.up.x,ground.transform.up.y,ground.transform.up.y);
+			Vector3 normal = ground.transform.up;
+			float dot = -Vector3.Dot (ground.transform.up, planePoint);
+			//print (dot);
+
+
+
 			//if particle is above ground:
 			if (p.body.transform.position.y > ground.transform.position.y) {
 				//drop falling physics:
@@ -56,6 +65,7 @@ public class ParticleGenerator : MonoBehaviour {
 				p.body.transform.position -= Vector3.up * ((endv + p.velocity)/2) * Time.deltaTime; //update y position
 				p.velocity = endv; //update particle velocity
 			}
+			
 			//if particle is above ground:
 			if (p.body.transform.position.y <= ground.transform.position.y) {
 				Vector3 shape = p.body.transform.localScale;
