@@ -9,6 +9,7 @@ public class ParticleGenerator : MonoBehaviour {
 	public float rate = -0.1f;
 
 
+
 	public class Drop {
 		public GameObject body;
 		public float velocity;
@@ -48,17 +49,15 @@ public class ParticleGenerator : MonoBehaviour {
 			
 			p.life++; //each frame is one point to life
 			GameObject ground = GameObject.FindGameObjectWithTag("ground");
-
 			//plane equation
-			Vector3 planePoint = new Vector3(ground.transform.up.x,ground.transform.up.y,ground.transform.up.y);
+			Vector3 planePoint = new Vector3(0,0,0);
 			Vector3 normal = ground.transform.up;
 			float dot = -Vector3.Dot (ground.transform.up, planePoint);
-			//print (dot);
-
+			//print (Vector3.Dot (p.body.transform.position - planePoint, normal));
 
 
 			//if particle is above ground:
-			if (p.body.transform.position.y > ground.transform.position.y) {
+			if (Vector3.Dot (p.body.transform.position - planePoint, normal) > 0) {
 				//drop falling physics:
 				float accel = 1f; //only force is gravity, using an equal ratio with mass
 				float endv = p.velocity + accel * Time.deltaTime; // v + a * deltaTime
@@ -66,11 +65,11 @@ public class ParticleGenerator : MonoBehaviour {
 				p.velocity = endv; //update particle velocity
 			}
 			
-			//if particle is above ground:
-			if (p.body.transform.position.y <= ground.transform.position.y) {
+			//if particle is on ground:
+			if (Vector3.Dot (p.body.transform.position - planePoint, normal) <= 0) {
 				Vector3 shape = p.body.transform.localScale;
 				Vector3 position = p.body.transform.position;
-				position.y = 0;
+				//position.y += 2;
 				p.body.transform.position = position;
 				if (shape.y > 0) {
 					shape.y -= .01f;
