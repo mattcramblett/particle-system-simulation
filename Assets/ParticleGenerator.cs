@@ -71,6 +71,11 @@ public class ParticleGenerator : MonoBehaviour {
 			if (Vector3.Dot (p.body.transform.position - planePoint, normal) <= .4) {
 				//TODO: add diagonal force down. plane is currently tilted 20 on x axis
 				//can add rotation to ball too
+				float accel = .05f;
+				float endv = p.velocity + accel * Time.deltaTime;
+				p.body.transform.position -= new Vector3(0,0,-1) * ((endv + p.velocity) / 2) * Time.deltaTime;
+
+				p.velocity = endv;
 				if (p.life > 30) {
 					toRemove.Add (p);
 				}
