@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ParticleGenerator : MonoBehaviour {
-	public int particleDensity = 25;
+	public int particleDensity = 5;
 	public float yStartPosition = 5f;
 	public ArrayList Particles;
-	public float rate = -0.1f;
 
 
 
@@ -17,7 +16,7 @@ public class ParticleGenerator : MonoBehaviour {
 
 		public Drop(){
 			body = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			velocity = 1f;
+			velocity = .75f;
 			life = 0;
 		}
 	}
@@ -31,7 +30,7 @@ public class ParticleGenerator : MonoBehaviour {
      		aSphere.body.transform.parent = transform;
      		aSphere.body.name = "sphere" + i.ToString();
      		aSphere.body.transform.position = new Vector3(Random.Range(-4.0f, 4.0f), yStartPosition, Random.Range(-4.0f, 4.0f)); //drop start pos
-			aSphere.body.transform.localScale = new Vector3(0.04f, 0.1f, 0.04f); //drop size
+			aSphere.body.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f); //drop size
 			Particles.Add(aSphere);
 		}
 	}
@@ -76,9 +75,17 @@ public class ParticleGenerator : MonoBehaviour {
 				p.body.transform.position -= new Vector3(0,0,-1) * ((endv + p.velocity) / 2) * Time.deltaTime;
 
 				p.velocity = endv;
-				if (p.life > 30) {
-					toRemove.Add (p);
-				}
+			}
+
+			if(p.body.transform.position.z > 5.5f){
+				float accel = .05f;
+				float endv = p.velocity + accel * Time.deltaTime;
+				p.body.transform.position -= new Vector3(0,1,0) * ((endv + p.velocity) / 2) * Time.deltaTime;
+				p.velocity = endv;
+			}
+
+			if(p.body.transform.position.y < -5f){
+				toRemove.Add(p);
 			}
 
 			//check each drops y position and assign a color:
